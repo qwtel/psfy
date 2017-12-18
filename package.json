@@ -64,5 +64,5 @@
   "directories": {
     "test": "test"
   },
-  "description": ""
+  "description": "Pre-promisified node standard library"
 }
