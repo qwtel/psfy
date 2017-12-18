@@ -1,0 +1,23 @@
+{
+  "name": "psfy",
+  "version": "1.0.0-pre",
+  "description": "",
+  "files": [
+    "cluster.js",
+    "dns.js",
+    "fs.js",
+    "http.js",
+    "https.js",
+    "tls.js"
+  ],
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Florian Klampfer <mail@qwtel.com> (https://qwtel.com/)",
+  "license": "MIT",
+  "devDependencies": {
+    "isomorphic-fetch": "^2.2.1",
+    "mocha": "^4.0.1",
+    "rxjs": "^5.5.5"
+  }
+}
