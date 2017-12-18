@@ -64,5 +64,14 @@
   "directories": {
     "test": "test"
   },
-  "description": "Pre-promisified node standard library"
+  "description": "Pre-promisified node standard library",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qwtel/psfy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/qwtel/psfy/issues"
+  },
+  "homepage": "https://github.com/qwtel/psfy#readme"
 }
