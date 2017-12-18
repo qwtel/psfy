@@ -74,5 +74,8 @@
   "bugs": {
     "url": "https://github.com/qwtel/psfy/issues"
   },
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "homepage": "https://github.com/qwtel/psfy#readme"
 }
