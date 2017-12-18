@@ -63,7 +63,7 @@ module.exports = ${token};`);
       .toArray()
       .toPromise();
 
-    pkg.files = writtenModules.map(x => `${x}.js`);
+    pkg.files = writtenModules.map(x => `${x}.js`).sort();
     return writeFile(resolve(`./package.json`), JSON.stringify(pkg, (k, v) => v, 2), 'utf-8');
   } catch (e) {
     console.error(e);
