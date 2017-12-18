@@ -1,14 +1,55 @@
 {
   "name": "psfy",
   "version": "1.0.0-pre",
-  "description": "",
   "files": [
+    "synopsis.js",
+    "documentation.js",
+    "async_hooks.js",
+    "assert.js",
+    "debugger.js",
+    "addons.js",
     "cluster.js",
+    "cli.js",
+    "esm.js",
+    "console.js",
+    "events.js",
     "dns.js",
-    "fs.js",
-    "http.js",
+    "globals.js",
     "https.js",
-    "tls.js"
+    "readline.js",
+    "child_process.js",
+    "crypto.js",
+    "punycode.js",
+    "n-api.js",
+    "os.js",
+    "vm.js",
+    "querystring.js",
+    "http.js",
+    "inspector.js",
+    "url.js",
+    "perf_hooks.js",
+    "string_decoder.js",
+    "timers.js",
+    "process.js",
+    "dgram.js",
+    "buffer.js",
+    "http2.js",
+    "tty.js",
+    "errors.js",
+    "tracing.js",
+    "stream.js",
+    "path.js",
+    "fs.js",
+    "tls.js",
+    "domain.js",
+    "v8.js",
+    "intl.js",
+    "repl.js",
+    "deprecations.js",
+    "modules.js",
+    "zlib.js",
+    "net.js",
+    "util.js"
   ],
   "scripts": {
     "test": "mocha"
@@ -19,5 +60,9 @@
     "isomorphic-fetch": "^2.2.1",
     "mocha": "^4.0.1",
     "rxjs": "^5.5.5"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "description": ""
 }

@@ -9,6 +9,8 @@ const fs = require('fs');
 
 const { Observable } = require('rxjs');
 
+const pkg = require('./package.json');
+
 const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
 const open = promisify(fs.open);
@@ -16,7 +18,7 @@ const open = promisify(fs.open);
 (async function() {
   try {
     const index = await fetch('https://nodejs.org/api/index.json').then(x => x.json());
-    await Observable.from(index.desc)
+    const writtenModules = await Observable.from(index.desc)
       .filter(({ type, text }) => type === 'text' && /\[.*?\]\(.*?\.html\)/i.test(text))
       .map(({ text }) => /\[(.*?)\]\((.*?).html\)/.exec(text))
       .map(([, title, token]) => ({ title, token, href: `https://nodejs.org/api/${token}.json` }))
@@ -56,9 +58,13 @@ const ${token} = require('${token}');
 module.exports = ${token};`);
         }
 
-        return writeFile(resolve(`./${token}.js`), file, 'utf-8');
+        return writeFile(resolve(`./${token}.js`), file, 'utf-8').then(() => token);
       })
+      .toArray()
       .toPromise();
+
+    pkg.files = writtenModules.map(x => `${x}.js`);
+    return writeFile(resolve(`./package.json`), JSON.stringify(pkg, (k, v) => v, 2), 'utf-8');
   } catch (e) {
     console.error(e);
   }
