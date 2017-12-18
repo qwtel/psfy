@@ -21,29 +21,27 @@ const open = promisify(fs.open);
       .map(({ text }) => /\[(.*?)\]\((.*?).html\)/.exec(text))
       .map(([, title, token]) => ({ title, token, href: `https://nodejs.org/api/${token}.json` }))
       .mergeMap(({ title, token, href }) => fetch(href).then(x => x.json()).then(data => ({ title, token, href, data })))
-      .map(({ title, token, data }) => {
-        const mod = data.modules && data.modules[0];
-        if (!mod) return null;
-        return {
-          name: mod.name,
-          title,
-          token,
-          methods: mod.methods && mod.methods.filter(m => m.signatures.some(s => s.params.some(p => p.name === 'callback'))) || [],
-        };
-      })
-      .filter(x => x && x.methods.length)
-      .concatMap(async ({ token, methods }) => {
-        const uMethods = await Observable.from(methods).distinct(a => a.name).toArray().toPromise();
+      .concatMap(async ({ token, data: { modules }}) => {
+        let uMethods = [];
+        if (modules && modules[0] && modules[0].methods) {
+          uMethods = await Observable.from(modules[0].methods)
+            .distinct(a => a.name)
+            .filter(m => m.signatures.some(s => s.params.some(p => p.name === 'callback')))
+            .toArray()
+            .toPromise();
+          }
 
-        const cases = uMethods
-          .map(m => `case '${m.name}': if (!${m.name}) ${m.name} = promisify(target.${m.name}); return ${m.name};`)
+        let file;
+        if (uMethods.length) {
+          const lets = uMethods.length ? `let ${uMethods.map(m => m.name).join(', ')};` : '';
 
-        const file = String.prototype.trim.call(`
+          const cases = uMethods
+            .map(m => `case '${m.name}': if (!${m.name}) ${m.name} = promisify(target.${m.name}); return ${m.name};`)
+
+          file = String.prototype.trim.call(`
 const ${token} = require('${token}');
 const promisify = require('util').promisify;
-
-let ${uMethods.map(m => m.name).join(', ')};
-
+${lets}
 module.exports = new Proxy(${token}, {
   get(target, name) {
     switch(name) {
@@ -52,6 +50,11 @@ module.exports = new Proxy(${token}, {
     }
   },
 });`);
+        } else {
+          file = String.prototype.trim.call(`
+const ${token} = require('${token}');
+module.exports = ${token};`);
+        }
 
         return writeFile(resolve(`./${token}.js`), file, 'utf-8');
       })

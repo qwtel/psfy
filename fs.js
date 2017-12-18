@@ -1,8 +1,6 @@
 const fs = require('fs');
 const promisify = require('util').promisify;
-
 let access, appendFile, chmod, chown, close, copyFile, exists, fchmod, fchown, fdatasync, fstat, fsync, ftruncate, futimes, lchmod, lchown, link, lstat, mkdir, mkdtemp, open, read, readdir, readFile, readlink, realpath, rename, rmdir, stat, symlink, truncate, unlink, utimes, write, writeFile;
-
 module.exports = new Proxy(fs, {
   get(target, name) {
     switch(name) {

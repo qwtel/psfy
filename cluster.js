@@ -1,8 +1,6 @@
 const cluster = require('cluster');
 const promisify = require('util').promisify;
-
 let disconnect;
-
 module.exports = new Proxy(cluster, {
   get(target, name) {
     switch(name) {

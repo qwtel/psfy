@@ -1,8 +1,6 @@
 const https = require('https');
 const promisify = require('util').promisify;
-
 let get, request;
-
 module.exports = new Proxy(https, {
   get(target, name) {
     switch(name) {

@@ -1,8 +1,6 @@
 const dns = require('dns');
 const promisify = require('util').promisify;
-
 let lookup, lookupService, resolve, resolve4, resolve6, resolveCname, resolveMx, resolveNaptr, resolveNs, resolvePtr, resolveSoa, resolveSrv, resolveTxt, resolveAny, reverse;
-
 module.exports = new Proxy(dns, {
   get(target, name) {
     switch(name) {
